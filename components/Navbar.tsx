@@ -5,7 +5,7 @@ import NavItems from "./NavItems";
 
 const Navbar = () => {
   return (
-    <nav className="navbar">
+    <div className="navbar">
       <Link href={"/"}>
         <div className="flex items-center justify-center cursor-pointer gap-2.5">
           <Image src="images/logo.svg" alt="Logo" width={46} height={44} />
@@ -13,9 +13,11 @@ const Navbar = () => {
       </Link>
       <div className="flex items-center gap-8">
         <NavItems />
-        <p>Sign In</p>
+        <Link href={"/sign-in"} >
+            <p>Sign In</p>
+        </Link>
       </div>
-    </nav>
+    </div>
   );
 };
 
