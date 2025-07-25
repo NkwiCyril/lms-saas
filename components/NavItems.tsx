@@ -7,7 +7,7 @@ import React from "react";
 
 const navItems = [
   { label: "Home", href: "/" },
-  { label: "Companions", href: "/companions" },
+  { label: "Learning Companions", href: "/companions" },
   { label: "My Journey", href: "/my-journey" },
 ];
 
@@ -20,7 +20,7 @@ const NavItems = () => {
           href={item.href}
           key={index}
           // className={pathname == item.href ? "font-semibold" : "text-normal"} // using ternary operators
-          className={cn(pathname === item.href && "text-primary font-bold")}
+          className={cn(pathname === item.href && "font-bold text-[#fe5933]")}
         >
           <p>{item.label}</p>
         </Link>
