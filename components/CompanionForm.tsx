@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -25,6 +24,8 @@ import {
 } from "@/components/ui/select";
 import { subjects, voices } from "@/constants";
 import { Textarea } from "./ui/textarea";
+import { createCompanion } from "@/lib/actions/companion.actions";
+import { redirect } from "next/navigation";
 
 // define shape of form using Zod schema
 const formSchema = z.object({
@@ -52,9 +53,14 @@ const CompanionForm = () => {
   });
 
   // define a submit handler function that will be called when the form is submitted
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    // handle form submission logic here
-    console.log(data);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const companion = await createCompanion(values);
+    if (companion) {
+      return redirect(`/companions/${companion.id}`);
+    } else {
+      console.log("Failed to create companion");
+    return redirect("/");
+    }
   };
 
   return (

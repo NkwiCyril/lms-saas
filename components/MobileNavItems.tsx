@@ -46,9 +46,9 @@ const MobileNavItems = () => {
       </SheetTrigger>
       <SheetContent side="right" className="w-72 sm:w-80">
         <SheetHeader className="text-left">
-          <SheetTitle className="text-xl font-bold">Navigation</SheetTitle>
+          <SheetTitle className="text-[#fe5933] text-xl font-bold">Converso</SheetTitle>
           <SheetDescription className="text-sm text-gray-600">
-            Navigate through the app
+            Your Personalized AI Learning Companion
           </SheetDescription>
         </SheetHeader>
         
