@@ -1,53 +1,77 @@
+"use client";
+
 import CompanionCard from "@/components/CompanionCard";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { recentSessions, subjects } from "@/constants";
-import Image from "next/image";
+import { getAllCompanions } from "@/lib/actions/companion.actions";
+import { getSubjectColor } from "@/lib/utils";
+import { Search } from "lucide-react";
 import React from "react";
 
-const CompanionsLibrary = () => {
+// change into an async function to fetch data from the server
+// Include search params as a parameter in the function
+// Check if filter by search or filter by topic has been applied and get
+// Insert into the getAllCompanions function to fetch the data
+const CompanionsLibrary = async ({ searchParams }: SearchParams) => {
+  const filters = await searchParams;
+  const subject = filters.subject ? filters.subject : "";
+  const topic = filters.topic ? filters.topic : "";
+
+  const companions = await getAllCompanions({subject, topic});
+
   return (
-    <main>
-      <article>
-        <section className="flex items-center justify-between mb-8">
-          <h1>Companion Library</h1>
-          <div className="flex items-center justify-center space-x-7">
-            <div className=" border-1 border-black rounded flex items-center gap-2 px-3 py-2">
-              <Image
-                src="icons/search.svg"
-                alt="search for companions"
-                width={15}
-                height={15}
-                color="#000000"
-              />
-              <input
+    <main className="container mx-auto px-4 py-8">
+      <article className="space-y-8">
+        {/* Header Section */}
+        <section className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold">Companion Library</h1>
+          {/* Search and Filter Controls */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto">
+            {/* Search Input */}
+            <div className="relative flex-1 sm:flex-none">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Input
                 type="text"
                 placeholder="Search your companions..."
-                className="border-0 focus:outline-none w-64"
+                onChange={() => {}}
+                className="pl-10 w-full sm:w-64"
               />
             </div>
-            <select
-              name=""
-              id=""
-              className="border-1 border-black rounded px-3 py-2"
-            >
-              <option value="">Select subject</option>
-              {subjects.map((subject) => (
-                <option key={subject} value={subject} className="capitalize">
-                  {subject}
-                </option>
-              ))}
-            </select>
+
+            {/* Subject Filter */}
+            <Select>
+              <SelectTrigger className="w-full sm:w-48">
+                <SelectValue placeholder="Select subject" />
+              </SelectTrigger>
+              <SelectContent>
+                {subjects.map((subject) => (
+                  <SelectItem
+                    key={subject}
+                    value={subject}
+                    className="capitalize"
+                  >
+                    {subject}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </section>
-        <section className="grid grid-cols-3 gap-5">
-          {recentSessions.map((session) => (
+
+        {/* Companions Grid */}
+        <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+          {companions.map((companion) => (
             <CompanionCard
-              key={session.id}
-              id={session.id}
-              name={session.name}
-              topic={session.topic}
-              subject={session.subject}
-              duration={session.duration}
-              color={session.color}
+              key={companion.id}
+              {...companion}
+              color={getSubjectColor(companion.subject)}
             />
           ))}
         </section>
