@@ -5,10 +5,8 @@ import React from "react";
 
 const NewCompanion = async () => {
   const { userId } = await auth();
-  
-  if (!userId) {
-    return redirect("/sign-in");
-  }
+
+  if (!userId) return redirect("/sign-in");
 
   return (
     <div className="min-md:w-2/3 min-lg:w-1/3 flex flex-col mx-auto gap-4">
