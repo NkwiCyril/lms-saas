@@ -59,7 +59,7 @@ const CompanionForm = () => {
       return redirect(`/companions/${companion.id}`);
     } else {
       console.log("Failed to create companion");
-    return redirect("/");
+      return redirect("/");
     }
   };
 
